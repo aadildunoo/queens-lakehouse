@@ -1,0 +1,6 @@
+{
+  "name": "Queen's Lake House",
+  "description": "Premium heritage houseboat and lake house experience on Nigeen Lake, Srinagar, offering authentic Kashmiri hospitality.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

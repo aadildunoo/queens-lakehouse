@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/enquiry"
+  to = "/.netlify/functions/enquiry"
+  status = 200
+  methods = ["POST", "OPTIONS"]

@@ -2,36 +2,14 @@ import { Room, Activity, GalleryItem, Testimonial, FAQItem } from './types';
 
 export const ROOMS: Room[] = [
   {
-    id: 'royal-suite',
-    name: "The Royal Cedar Suite",
-    description: "Our signature suite featuring masterfully hand-carved cedar wood ceilings, vintage Persian carpets, and direct sunrise lake-facing windows.",
-    longDescription: "Step into ninety square feet of living history. The Royal Cedar Suite displays the finest wood carvings in Srinagar, complete with fully insulated authentic cedar paneling that maintains a pleasant warm environment. Overlooking the serene lily pads of Nigeen Lake, this suite has welcomed explorers and families seeking an elite Kashmiri experience since 1946.",
-    image: "https://lh3.googleusercontent.com/aida/ADBb0ujYOLgohk8EBYeGWwK-xdI9W9n1PKcR40Vo_NK2LbW0JWkTS65XiNC7FHSWgyza4U4laHYDd1lcCjiFVZ12xDZGBcHO6NirW0TFWSbP-w4QGtgz8X8eoR9mfZzBTMI7jZdUCbrf7W8c9KzbvuwfsaNJtOyVVeYtCxAZhquNvYnvpBIQLt_C5gnxFRzNfGwRS_SGINiK4L8MfaavAyVDVN_AWpF_Wk5AIfUCVg9iCqy1sZARaYWwy8Ma-A",
-    price: "₹12,500",
-    specs: ["1 King Size Royal Bed", "En-suite Marble Bathroom", "Private Panoramic Lake Balcony"],
-    amenities: ["Hot Water Bath 24/7", "Premium Kashmiri Carpets", "Complimentary Kehwa Tea", "Room Heating", "Plush Towels & Robes", "High-speed Wi-Fi"],
-    maxGuests: 3
-  },
-  {
-    id: 'heritage-deluxe',
-    name: "The Heritage Garden Double",
-    description: "Adorned with intricate hand-framed Pinjra-kari woodwork and crewel embroidered textiles, overlooking our private family gardens.",
-    longDescription: "Offering unmatched peace and seclusion, the Heritage Garden Double looks out over the mountain view compound. Free from any traffic or public interference, this room allows guests to experience local life at their own gentle pace. The walls are adorned with historic copper plates and hand-woven wool tapestry.",
+    id: 'deluxe-double-room',
+    name: "Deluxe Double Room",
+    description: "A welcoming double room with warm cedar touches, soft lighting, and a tranquil lake-facing atmosphere for two guests.",
+    longDescription: "Experience the comfort of our Deluxe Double Room, designed for couples and families seeking peaceful lakeside hospitality. The room combines elegant Kashmiri woodwork with modern amenities, creating a serene retreat that is perfect for a memorable stay by Nigeen Lake.",
     image: "https://lh3.googleusercontent.com/aida/ADBb0uiGy9E-qdm0zxgcNuLti6XKA6egPE16c1sndOyFztDHxbBiKFRFClvQM2ckMRbI7F1zNIgc3pqvAZGrm-0ntZZ172kJVyohCnUwocfDxbOfgRb5HHA2mN9Xv0loLcWky7Q_DYp9S1j8ZSacGOrDWyjUzgHllGI8oherTBe_So-OAjwwBDiRxwg7j5bkNcLPXIeb5oHSJmCW-IRAr4zIZd2SpreZu-LVYvEForzU_lHmamAtWLRFdKOd5n0",
     price: "₹9,800",
-    specs: ["1 Cozy Queen Bed", "Attached Bathroom with Tub", "Garden & Mountain Views"],
-    amenities: ["Hot Water Bath 24/7", "Authentic Crewel Drapery", "Welcome Kahwa Tea", "Electric Blanket", "Fresh Linens & Slippers", "High-speed Wi-Fi"],
-    maxGuests: 2
-  },
-  {
-    id: 'whispering-waters',
-    name: "The Whispering Waters Twin",
-    description: "Elegant twin layout designed around historic Kashmiri brass ornaments and vintage windows bringing in smooth, cool lake breezes.",
-    longDescription: "Ideal for friends or family, The Whispering Waters Deluxe Twin offers individual vintage brass frame beds, plush velvet quilts, and direct front deck access. Awake to the soft chirping of kingfishers and the gentle splash of a passing shikara.",
-    image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDDcFqUWiWqJkk03Jn4LbNnodlg8yecI5UKWjrZAbzGxNcMbqJUGKyU3M2kYJuQ2K6Y4l0CCiUs2OfuOLGYVjr6-BQzypeaix_NkkqB-lcrFMeAISvVN-9Ei3SI7hahlBTiaOsZLKeGncnfxvCFAuSuS22C2m9FfqBmlNHhnjdGHUU9IfmhkjpJNzW7C0yEP5kFZ5tqQm7EN5C8CsjYX8qWdfmSc01PITvCcsycyBoETUMGw_NteixDzwJR1GupWMX1hr9wyUcjAmc",
-    price: "₹8,500",
-    specs: ["2 Premium Twin Beds", "Attached Modern Bathroom", "Direct Front Deck Access"],
-    amenities: ["Hot Water Bath 24/7", "Vintage Brass Furnishings", "Kashmiri Herbal Tea", "Centralized Heater", "Plush Hand Towels", "High-speed Wi-Fi"],
+    specs: ["1 Large Double Bed", "En-suite Bathroom", "Large Window with Garden View"],
+    amenities: ["Hot Water Bath 24/7", "Complimentary Kehwa Tea", "Room Heating", "High-speed Wi-Fi", "Plush Towels & Robes"],
     maxGuests: 2
   }
 ];

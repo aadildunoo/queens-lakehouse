@@ -17,7 +17,6 @@ import RoomCards from './components/RoomCards';
 import ActivitiesSection from './components/Activities';
 import GalleryView from './components/GalleryView';
 import EnquiryForm from './components/EnquiryForm';
-import ConfirmationModal from './components/ConfirmationModal';
 import Footer from './components/Footer';
 import WhatsAppButton from './components/WhatsAppButton';
 import { TESTIMONIALS, FAQS } from './data';
@@ -25,8 +24,8 @@ import { BookingDetails } from './types';
 import { Star, MessageSquare, Heart, Quote, ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
 
 export default function App() {
-  const [selectedRoomId, setSelectedRoomId] = useState<string>('royal-suite');
-  const [submittedDetails, setSubmittedDetails] = useState<BookingDetails | null>(null);
+  const [selectedRoomId, setSelectedRoomId] = useState<string>('deluxe-double-room');
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<string>('hero');
   
   // Testimonial Carousel Index State
@@ -78,8 +77,25 @@ export default function App() {
     setSelectedRoomId(roomId);
   };
 
-  const handleFormSubmit = (details: BookingDetails) => {
-    setSubmittedDetails(details);
+  const handleFormSubmit = async (details: BookingDetails) => {
+    try {
+      const response = await fetch('/api/enquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(details),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Enquiry API error:', errorText);
+        throw new Error('Unable to send enquiry.');
+      }
+
+      setToastMessage('Enquiry sent. We will get back to you shortly.');
+    } catch (error) {
+      console.error(error);
+      setToastMessage('Unable to send enquiry right now. Please try again later.');
+    }
   };
 
   const nextTestimonial = () => {
@@ -93,6 +109,12 @@ export default function App() {
   const toggleFaq = (id: string) => {
     setExpandedFaqId(expandedFaqId === id ? null : id);
   };
+
+  useEffect(() => {
+    if (!toastMessage) return;
+    const timer = window.setTimeout(() => setToastMessage(null), 5000);
+    return () => window.clearTimeout(timer);
+  }, [toastMessage]);
 
   return (
     <div className="min-h-screen bg-neutral-warm text-neutral-dark selection:bg-secondary/20 font-sans selection:text-primary overflow-x-hidden antialiased">
@@ -235,19 +257,25 @@ export default function App() {
         onFormSubmit={handleFormSubmit} 
       />
 
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 w-[min(95vw,320px)] rounded-2xl border border-white/15 bg-slate-900/95 p-4 text-sm text-white shadow-xl backdrop-blur-md">
+          <div className="flex items-start justify-between gap-3">
+            <span>{toastMessage}</span>
+            <button
+              onClick={() => setToastMessage(null)}
+              className="text-secondary text-xs font-semibold uppercase tracking-[0.24em]"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* 11. Footer details */}
       <Footer />
 
       {/* 12. Floating WhatsApp button */}
       <WhatsAppButton />
-
-      {/* 13. High Fidelity Confirmation Modal on successful submit */}
-      {submittedDetails && (
-        <ConfirmationModal 
-          details={submittedDetails} 
-          onClose={() => setSubmittedDetails(null)} 
-        />
-      )}
 
     </div>
   );

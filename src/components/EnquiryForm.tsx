@@ -5,7 +5,7 @@ import { BookingDetails } from '../types';
 
 interface EnquiryFormProps {
   selectedRoomId: string;
-  onFormSubmit: (details: BookingDetails) => void;
+  onFormSubmit: (details: BookingDetails) => Promise<void>;
 }
 
 export default function EnquiryForm({ selectedRoomId, onFormSubmit }: EnquiryFormProps) {
@@ -13,10 +13,11 @@ export default function EnquiryForm({ selectedRoomId, onFormSubmit }: EnquiryFor
   const [email, setEmail] = useState('');
   const [dateStart, setDateStart] = useState('');
   const [dateEnd, setDateEnd] = useState('');
-  const [roomType, setRoomType] = useState('royal-suite');
+  const [roomType, setRoomType] = useState('deluxe-double-room');
   const [guests, setGuests] = useState(2);
   const [message, setMessage] = useState('');
   const [phone, setPhone] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Calculate pricing estimates live
   const [totalNights, setTotalNights] = useState(0);
@@ -57,22 +58,28 @@ export default function EnquiryForm({ selectedRoomId, onFormSubmit }: EnquiryFor
 
   const activeRoomObj = ROOMS.find(r => r.id === roomType);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !dateStart || !dateEnd) {
       alert("Please complete core details including dates and email.");
       return;
     }
-    onFormSubmit({
-      name,
-      email,
-      dateStart,
-      dateEnd,
-      roomType,
-      guests,
-      message,
-      phone
-    });
+
+    setIsSubmitting(true);
+    try {
+      await onFormSubmit({
+        name,
+        email,
+        dateStart,
+        dateEnd,
+        roomType,
+        guests,
+        message,
+        phone
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const setSampleDates = () => {
@@ -304,9 +311,7 @@ export default function EnquiryForm({ selectedRoomId, onFormSubmit }: EnquiryFor
                   value={roomType}
                   onChange={(e) => setRoomType(e.target.value)}
                 >
-                  <option value="royal-suite">Royal Cedar Suite</option>
-                  <option value="heritage-deluxe">Garden Double Room</option>
-                  <option value="whispering-waters">Whispering Twins</option>
+                  <option value="deluxe-double-room">Deluxe Double Room</option>
                 </select>
               </div>
 
@@ -360,10 +365,11 @@ export default function EnquiryForm({ selectedRoomId, onFormSubmit }: EnquiryFor
             {/* Button */}
             <button
               id="submit-enquiry-button"
-              className="w-full bg-secondary hover:bg-cedar-warm text-white font-sans text-xs font-bold py-4 rounded-sm hover:shadow-lg transition-all uppercase tracking-widest mt-2 cursor-pointer border border-secondary/10"
               type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-secondary hover:bg-cedar-warm text-white font-sans text-xs font-bold py-4 rounded-sm hover:shadow-lg transition-all uppercase tracking-widest mt-2 cursor-pointer border border-secondary/10 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Send Enquiry Request
+              {isSubmitting ? 'Sending enquiry...' : 'Send Enquiry Request'}
             </button>
             
           </form>

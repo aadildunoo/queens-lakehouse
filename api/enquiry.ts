@@ -12,12 +12,19 @@ interface BookingDetails {
   phone?: string;
 }
 
-const ADMIN_EMAIL = 'sales@queenslakehouse.com';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'sales@queenslakehouse.com';
+const FROM_EMAIL = process.env.SMTP_FROM || `no-reply@${ADMIN_EMAIL.split('@')[1] || 'queenslakehouse.com'}`;
+
+const missingSmtpVars = ['SMTP_HOST', 'SMTP_USER', 'SMTP_PASS'].filter((key) => !process.env[key]);
+if (missingSmtpVars.length > 0) {
+  console.error('Missing SMTP env vars:', missingSmtpVars.join(', '));
+}
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT || 587),
   secure: process.env.SMTP_SECURE === 'true',
+  requireTLS: process.env.SMTP_REQUIRE_TLS === 'true',
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
@@ -35,11 +42,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ error: 'Missing required fields' });
   }
 
+  if (missingSmtpVars.length > 0) {
+    return res.status(500).json({ error: `Mail service not configured: ${missingSmtpVars.join(', ')}` });
+  }
+
   const mailText = `New enquiry received:\n\nName: ${details.name}\nEmail: ${details.email}\nPhone: ${details.phone || 'N/A'}\nCheck In: ${details.dateStart}\nCheck Out: ${details.dateEnd}\nRoom: ${details.roomType}\nGuests: ${details.guests}\nMessage: ${details.message || 'N/A'}`;
 
   try {
     await transporter.sendMail({
-      from: process.env.SMTP_FROM || details.email,
+      from: FROM_EMAIL,
       to: ADMIN_EMAIL,
       subject: `New enquiry from ${details.name}`,
       text: mailText,
